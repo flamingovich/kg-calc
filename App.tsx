@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { CalculationResult, WeightUnit } from './types';
+import { CalculationResult, WeightUnit } from './types.ts';
 import { 
   Plus, 
   Scale, 
@@ -89,7 +89,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen pb-safe">
+    <div className="flex flex-col items-center min-h-screen pb-safe bg-[#f2f2f7]">
       <div className="w-full max-w-md min-h-screen flex flex-col relative">
         
         <div className="h-12 w-full"></div>
@@ -111,7 +111,7 @@ const App: React.FC = () => {
 
         {/* Input Form */}
         <div className="px-4 mt-2">
-          <div className="liquid-glass rounded-[2.5rem] p-6 ios-shadow border-white/40">
+          <div className="liquid-glass rounded-[2.5rem] p-6 shadow-xl shadow-black/[0.03] border-white/50">
             <div className="space-y-5">
               <input
                 type="text"
@@ -201,9 +201,9 @@ const App: React.FC = () => {
                 </div>
 
                 <div className="mb-6">
-                  <p className="text-[13px] font-bold opacity-90 leading-relaxed">
-                    Товар <span className="bg-white text-blue-700 px-3 py-0.5 rounded-full font-black mx-1 inline-block shadow-sm">{comparisonData.best.name}</span>
-                    <br/><span className="mt-1 inline-block">побеждает по всем параметрам:</span>
+                  <p className="text-[14px] font-bold opacity-90 leading-relaxed">
+                    Товар <span className="bg-white/95 text-blue-800 px-3 py-1 rounded-xl font-black mx-1 inline-block shadow-lg ring-4 ring-blue-500/30">{comparisonData.best.name}</span>
+                    <br/><span className="mt-2 inline-block">выгоднее остальных:</span>
                   </p>
                 </div>
 
@@ -211,15 +211,17 @@ const App: React.FC = () => {
                   {comparisonData.insights.map((insight, idx) => (
                     <div key={idx} className="bg-black/15 rounded-3xl p-4 flex items-center justify-between backdrop-blur-xl border border-white/10">
                       <div className="max-w-[65%]">
-                        <p className="text-[9px] font-black uppercase tracking-widest text-white/50 mb-1.5 flex items-center gap-1">
-                          <span className="w-1 h-1 bg-white/40 rounded-full"></span> Против <span className="text-white font-black">{insight.name}</span>
-                        </p>
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <span className="w-1.5 h-1.5 bg-white/40 rounded-full"></span>
+                          <p className="text-[10px] font-black uppercase tracking-widest text-white/50">Против</p>
+                          <p className="text-[11px] font-black bg-white/10 px-2 py-0.5 rounded-lg text-white">{insight.name}</p>
+                        </div>
                         <p className="text-base font-bold text-white">
-                          Выгоднее на <span className="text-green-300 font-black text-xl">{insight.savings}%</span>
+                          Дешевле на <span className="text-green-300 font-black text-xl">{insight.savings}%</span>
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="text-[9px] font-black uppercase tracking-tighter text-white/50 mb-0.5">Разница</p>
+                        <p className="text-[9px] font-black uppercase tracking-tighter text-white/50 mb-0.5">Экономия</p>
                         <p className="text-sm font-black whitespace-nowrap">-{insight.diff} <span className="text-[10px] opacity-60">BYN/кг</span></p>
                       </div>
                     </div>
@@ -243,7 +245,7 @@ const App: React.FC = () => {
               <div className="p-6 bg-white rounded-full mb-5 shadow-sm">
                 <Scale size={32} strokeWidth={1.5} />
               </div>
-              <p className="text-sm font-black tracking-tight uppercase">Добавьте первый товар</p>
+              <p className="text-sm font-black tracking-tight uppercase">Список пуст</p>
             </div>
           ) : (
             <div className="space-y-5">
@@ -256,12 +258,12 @@ const App: React.FC = () => {
                     key={item.id} 
                     className={`liquid-glass rounded-[2.2rem] p-6 ios-shadow transition-all relative active:scale-[0.98] ${
                       isBest 
-                      ? 'border-2 border-blue-500 bg-white/90 shadow-blue-500/10' 
+                      ? 'border-2 border-blue-500 bg-white/95 shadow-lg shadow-blue-500/5' 
                       : 'border border-white/50'
                     }`}
                   >
                     {isBest && (
-                      <div className="absolute top-0 right-0 bg-blue-500 text-white p-2.5 px-6 rounded-bl-[1.5rem] shadow-sm">
+                      <div className="absolute top-0 right-0 bg-blue-500 text-white p-2.5 px-6 rounded-bl-[1.5rem] shadow-sm z-20">
                          <Trophy size={18} strokeWidth={2.5} />
                       </div>
                     )}
@@ -280,7 +282,7 @@ const App: React.FC = () => {
                       </div>
                       <button 
                         onClick={() => removeResult(item.id)}
-                        className="p-3 -mr-3 -mt-1 text-slate-300 hover:text-red-500 active:scale-125 transition-all"
+                        className="p-3 -mr-3 -mt-1 text-slate-300 hover:text-red-500 active:scale-125 transition-all z-20"
                       >
                         <X size={22} strokeWidth={3} />
                       </button>
@@ -288,7 +290,7 @@ const App: React.FC = () => {
 
                     <div className="mt-8 flex items-end justify-between">
                       <div className="flex flex-col">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Итоговая цена за кг</span>
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Цена за кг</span>
                         <div className="flex items-center gap-2">
                           <Scale size={20} className={isBest ? 'text-blue-500' : 'text-slate-300'} />
                           <span className={`text-3xl font-black tracking-tighter ${isBest ? 'text-blue-600' : 'text-slate-900'}`}>
